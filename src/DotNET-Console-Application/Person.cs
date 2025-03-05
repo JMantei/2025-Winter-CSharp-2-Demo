@@ -44,7 +44,7 @@ abstract public class Person
         }
 
     }
-    public void Eat(float amount)
+    public virtual void Eat(float amount)
     {
         HungerLevel -= amount;
     }

@@ -9,4 +9,9 @@ public class Instructor : Person
     }
 
     public int InstructorID { get; set; }
+
+    public override void Eat(float amount)
+    {
+        HungerLevel -= amount * 0.9f;
+    }
 }

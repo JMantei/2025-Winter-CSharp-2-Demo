@@ -1,6 +1,6 @@
 namespace DotNET_Console_Application;
 
-class Person
+abstract public class Person
 {
     // public Person()
     // {

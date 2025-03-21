@@ -23,12 +23,30 @@ class Program
     }
     static void Main(string[] args)
     {
-        Rectangle myRectangle = new Rectangle(GetValidInt("Please enter the rectangle's length: "), GetValidInt("Please enter the rectangle's width: "));
-        Circle myCircle = new Circle(GetValidInt("Please enter the circle's radius: "));
-        Triangle myTriangle = new Triangle(GetValidInt("Please enter the triangle's base: "), GetValidInt("Please enter the triangle's height: "));
-
-        Console.WriteLine(myRectangle);
-        Console.WriteLine(myCircle);
-        Console.WriteLine(myTriangle);
+        string selection = "";
+        List<Shape> shapes = new List<Shape>();
+        do
+        {
+            Console.Write("--Shapes--\n1. Rectangle\n2. Circle\n3. Triangle\n4. Exit\n\tChoose: ");
+            selection = Console.ReadLine().Trim();
+            if (selection == "1")
+            {
+                shapes.Add(new Rectangle(GetValidInt("Please enter the rectangle's length: "), GetValidInt("Please enter the rectangle's width: ")));
+            }
+            else if (selection == "2")
+            {
+                shapes.Add(new Circle(GetValidInt("Please enter the circle's radius: ")));
+            }
+            else if (selection == "3")
+            {
+                shapes.Add(new Triangle(GetValidInt("Please enter the triangle's base: "), GetValidInt("Please enter the triangle's height: ")));
+            }
+            else
+            {
+                Console.WriteLine("Invalid selection, please try again...");
+            }
+            Console.WriteLine($"Total Perimeter: {shapes.Sum(x => x.Perimeter)}\nTotal Area: {shapes.Sum(x => x.Area)}\nTotal Area of Squares: {shapes.Sum(x => x.ContainWithSquare().Area)}");
+        } while (selection != "4");
+        Console.WriteLine("Cya!");
     }
 }

@@ -1,6 +1,6 @@
 namespace DotNET_Console_Application;
 
-public class Circle
+public class Circle : Shape
 {
     public Circle(double radius = 10)
     {
@@ -8,10 +8,14 @@ public class Circle
     }
     public double Radius { get; set; }
 
-    public double Area => Math.PI * Math.Pow(Radius, 2);
+    public override double Area => Math.PI * Math.Pow(Radius, 2);
 
     public double Circumference => 2 * Math.PI * Radius;
+
+    public override double Perimeter => Circumference;
     public double Diameter => 2 * Radius;
+
+    public override Rectangle ContainWithSquare() => new Rectangle(Diameter, Diameter);
 
     public override string ToString()
     {

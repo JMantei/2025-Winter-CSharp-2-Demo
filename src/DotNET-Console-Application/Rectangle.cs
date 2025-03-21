@@ -1,6 +1,6 @@
 namespace DotNET_Console_Application;
 
-public class Rectangle
+public class Rectangle : Shape
 {
     public Rectangle(double length = 10, double width = 10)
     {
@@ -9,15 +9,15 @@ public class Rectangle
     }
     public double Length { get; set; }
     public double Width { get; set; }
-    public Rectangle ContainWithSquare()
+    public override Rectangle ContainWithSquare()
     {
         double edge = Math.Max(Length, Width);
         return new Rectangle(edge, edge);
     }
 
     public bool IsSquare => Length == Width;
-    public double Area => Length * Width;
-    public double Perimeter => 2 * (Length + Width);
+    public override double Area => Length * Width;
+    public override double Perimeter => 2 * (Length + Width);
 
     public override string ToString()
     {

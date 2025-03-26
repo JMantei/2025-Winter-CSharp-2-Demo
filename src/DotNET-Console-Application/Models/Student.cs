@@ -1,41 +1,27 @@
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace DotNET_Console_Application.Models
+namespace DotNET_Console_Application.Models;
+
+[Keyless]
+[Table("students")]
+public partial class Student
 {
-    [Table("student")]
-    public partial class Student : Person
-    {
-        [Column("course_id", TypeName = "INTEGER")]
-        public int? CourseID { get; set; }
+    [Column("id")]
+    public int? Id { get; set; }
 
-        [ForeignKey(nameof(CourseID))]
-        [InverseProperty(nameof(Models.Course.Students))]
-        public virtual Course Course { get; set; }
-    }
-    public partial class CodeFirstContext
-    {
-        public DbSet<Student> Students { get; set; }
-        partial void OnModelCreatingPartialStudent(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Student>(entity =>
-            {
-                entity.HasData([new Student() {
-                    ID = -1,
-                    FirstName = "Jane",
-                    LastName = "Doe",
-                    CourseID = -1
-                }]);
-                entity.HasOne(child => child.Course)
-                      .WithMany(parent => parent.Students)
-                      .OnDelete(DeleteBehavior.SetNull)
-                      .HasConstraintName($"FK_{nameof(Student)}_{nameof(Course)}");
+    [Column("first_name")]
+    public string? FirstName { get; set; }
 
-                entity.HasIndex(e => e.CourseID).HasDatabaseName($"FK_{nameof(Student)}_{nameof(Course)}");
-            });
-        }
-    }
+    [Column("last_name")]
+    public string? LastName { get; set; }
+
+    [Column("course_id")]
+    public int? CourseId { get; set; }
+
+    [ForeignKey("CourseId")]
+    public virtual Course? Course { get; set; }
 }
-
-

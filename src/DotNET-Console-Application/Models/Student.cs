@@ -6,22 +6,23 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DotNET_Console_Application.Models;
 
-[Keyless]
-[Table("students")]
+[Table("student")]
 public partial class Student
 {
+    [Key]
     [Column("id")]
-    public int? Id { get; set; }
+    public int Id { get; set; }
+
+    [Column("class_id")]
+    public int ClassId { get; set; }
 
     [Column("first_name")]
-    public string? FirstName { get; set; }
+    public string FirstName { get; set; } = null!;
 
     [Column("last_name")]
-    public string? LastName { get; set; }
+    public string LastName { get; set; } = null!;
 
-    [Column("course_id")]
-    public int? CourseId { get; set; }
-
-    [ForeignKey("CourseId")]
-    public virtual Course? Course { get; set; }
+    [ForeignKey("ClassId")]
+    [InverseProperty("Students")]
+    public virtual Classroom Class { get; set; } = null!;
 }

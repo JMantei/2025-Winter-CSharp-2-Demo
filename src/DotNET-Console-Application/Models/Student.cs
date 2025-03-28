@@ -18,6 +18,8 @@ public partial class Student
 
     [Column("first_name")]
     public string FirstName { get; set; } = null!;
+    [Column("middle_name")]
+    public string MiddleName { get; set; } = null!;
 
     [Column("last_name")]
     public string LastName { get; set; } = null!;

@@ -27,7 +27,36 @@ public partial class ExerciseContext : DbContext
     {
         modelBuilder.Entity<Student>(entity =>
         {
+            entity.HasData([
+                new Student() {
+                    Id=-1,
+                    ClassId=-1,
+                    FirstName="John",
+                    MiddleName="Robert",
+                    LastName="Doe"
+                },
+                new Student() {
+                    Id=-2,
+                    ClassId=-2,
+                    FirstName="Jane",
+                    MiddleName="Joanne",
+                    LastName="Doe"
+                }
+            ]);
             entity.HasOne(d => d.Class).WithMany(p => p.Students).OnDelete(DeleteBehavior.ClientSetNull);
+        });
+        modelBuilder.Entity<Classroom>(entity =>
+        {
+            entity.HasData([
+                new Classroom() {
+                    Id=-1,
+                    RoomNumber=1
+                },
+                new Classroom() {
+                    Id=-2,
+                    RoomNumber=2
+                }
+            ]);
         });
 
         OnModelCreatingPartial(modelBuilder);

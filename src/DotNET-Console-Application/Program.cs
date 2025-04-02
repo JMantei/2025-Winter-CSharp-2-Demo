@@ -57,45 +57,32 @@ class Program
               }
               else if (operationChoice == 3)
               {
-                using (CodeFirstContext context = new CodeFirstContext())
+                if (entityChoice == 0)
                 {
-                  foreach (Instructor instructor in context.Instructors.ToList())
-                  {
-                    Console.WriteLine($"{instructor.ID}. {instructor.FirstName} {instructor.LastName}");
-                  }
-                  int targetID = int.Parse(GetString("Please enter the instructor ID to update: "));
-                  Instructor? target = context.Instructors.Find(targetID);
-                  if (target == null)
-                  {
-                    Console.WriteLine("Could not find that instructor, please try again.");
-                  }
-                  else
-                  {
-                    target.FirstName = GetString("Please enter the new First Name: ");
-                    target.LastName = GetString("Please enter the new Last Name: ");
-                    context.SaveChanges();
-                  }
+                  UpdateInstructor();
+                }
+                else if (entityChoice == 1)
+                {
+                  UpdateCourse();
+                }
+                else if (entityChoice == 2)
+                {
+                  UpdateStudent();
                 }
               }
               else if (operationChoice == 4)
               {
-                using (CodeFirstContext context = new CodeFirstContext())
+                if (entityChoice == 0)
                 {
-                  foreach (Instructor instructor in context.Instructors.ToList())
-                  {
-                    Console.WriteLine($"{instructor.ID}. {instructor.FirstName} {instructor.LastName}");
-                  }
-                  int targetID = int.Parse(GetString("Please enter the instructor ID to update: "));
-                  Instructor? target = context.Instructors.Find(targetID);
-                  if (target == null)
-                  {
-                    Console.WriteLine("Could not find that instructor, please try again.");
-                  }
-                  else
-                  {
-                    context.Remove(target);
-                    context.SaveChanges();
-                  }
+                  DeleteInstructor();
+                }
+                else if (entityChoice == 1)
+                {
+                  DeleteCourse();
+                }
+                else if (entityChoice == 2)
+                {
+                  DeleteStudent();
                 }
               }
               else if (operationChoice != 5)

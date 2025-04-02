@@ -27,14 +27,17 @@ class Functions
 
   public static void AddCourse()
   {
+    string code = GetString("Please enter the Course Code: ");
+    string name = GetString("Please enter the Name: ");
+    DisplayInstructors();
+    int instructorID = int.Parse(GetString("Please enter the Instructor ID: "));
     using (CodeFirstContext context = new CodeFirstContext())
     {
       context.Courses.Add(new Course()
       {
-        Code = GetString("Please enter the Course Code: "),
-        Name = GetString("Please enter the Name: "),
-        // This should be a list then select, but for now we're going basic.
-        InstructorID = int.Parse(GetString("Please enter the Instructor ID: "))
+        Code = code,
+        Name = name,
+        InstructorID = instructorID
       });
       context.SaveChanges();
     }
@@ -42,13 +45,17 @@ class Functions
 
   public static void AddStudent()
   {
+    string firstName = GetString("Please enter the First Name: ");
+    string lastName = GetString("Please enter the Last Name: ");
+    DisplayCourses();
+    int courseID = int.Parse(GetString("Please enter the Course ID: "));
     using (CodeFirstContext context = new CodeFirstContext())
     {
       context.Students.Add(new Student()
       {
-        FirstName = GetString("Please enter the First Name: "),
-        LastName = GetString("Please enter the Last Name: "),
-        CourseID = int.Parse(GetString("Please enter the Course ID: "))
+        FirstName = firstName,
+        LastName = lastName,
+        CourseID = courseID
       });
       context.SaveChanges();
     }
@@ -83,7 +90,128 @@ class Functions
     {
       foreach (Student student in context.Students.ToList())
       {
-        Console.WriteLine($"{student.FirstName} {student.LastName}");
+        Console.WriteLine($"{student.ID}. {student.FirstName} {student.LastName}");
+      }
+    }
+  }
+
+  public static void UpdateInstructor()
+  {
+    using (CodeFirstContext context = new CodeFirstContext())
+    {
+      DisplayInstructors();
+      int targetID = int.Parse(GetString("Please enter the instructor ID to update: "));
+      Instructor? target = context.Instructors.Find(targetID);
+      if (target == null)
+      {
+        Console.WriteLine("Could not find that instructor, please try again.");
+      }
+      else
+      {
+        target.FirstName = GetString("Please enter the new First Name: ");
+        target.LastName = GetString("Please enter the new Last Name: ");
+        context.SaveChanges();
+      }
+    }
+  }
+
+  public static void UpdateCourse()
+  {
+    using (CodeFirstContext context = new CodeFirstContext())
+    {
+      DisplayCourses();
+      int targetID = int.Parse(GetString("Please enter the course ID to update: "));
+      Course? target = context.Courses.Find(targetID);
+      if (target == null)
+      {
+        Console.WriteLine("Could not find that course, please try again.");
+      }
+      else
+      {
+        target.Name = GetString("Please enter the new course Name: ");
+        target.Code = GetString("Please enter the new course Code: ");
+        DisplayInstructors();
+        target.InstructorID = int.Parse(GetString("Please enter the new instructor Id: "));
+        context.SaveChanges();
+      }
+    }
+  }
+
+  public static void UpdateStudent()
+  {
+    using (CodeFirstContext context = new CodeFirstContext())
+    {
+      DisplayStudents();
+      int targetID = int.Parse(GetString("Please enter the student ID to update: "));
+      Student? target = context.Students.Find(targetID);
+      if (target == null)
+      {
+        Console.WriteLine("Could not find that student, please try again.");
+      }
+      else
+      {
+        target.FirstName = GetString("Please enter the new First Name: ");
+        target.LastName = GetString("Please enter the new Last Name: ");
+        DisplayCourses();
+        target.CourseID = int.Parse(GetString("Please enter the new course Id: "));
+        context.SaveChanges();
+      }
+    }
+  }
+
+  public static void DeleteInstructor()
+  {
+    using (CodeFirstContext context = new CodeFirstContext())
+    {
+      DisplayInstructors();
+      int targetID = int.Parse(GetString("Please enter the instructor ID to delete: "));
+      Instructor? target = context.Instructors.Find(targetID);
+      if (target == null)
+      {
+        Console.WriteLine("Could not find that instructor, please try again.");
+      }
+      else
+      {
+        context.Remove(target);
+        context.SaveChanges();
+      }
+    }
+  }
+
+  public static void DeleteCourse()
+  {
+    using (CodeFirstContext context = new CodeFirstContext())
+    {
+      DisplayCourses();
+      int targetID = int.Parse(GetString("Please enter the course ID to delete: "));
+      Course? target = context.Courses.Find(targetID);
+      if (target == null)
+      {
+        Console.WriteLine("Could not find that course, please try again.");
+      }
+      else
+      {
+        context.Remove(target);
+        context.SaveChanges();
+      }
+    }
+  }
+
+  public static void DeleteStudent()
+  {
+    using (CodeFirstContext context = new CodeFirstContext())
+    {
+      DisplayStudents();
+      int targetID = int.Parse(GetString("Please enter the student ID to delete: "));
+      Student? target = context.Students.Find(targetID);
+      if (target == null)
+      {
+        Console.WriteLine("Could not find that student, please try again.");
+      }
+      else
+      {
+        context.Remove(target);
+        context.SaveChanges();
       }
     }
   }

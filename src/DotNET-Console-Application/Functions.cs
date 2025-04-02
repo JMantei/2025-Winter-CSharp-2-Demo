@@ -8,8 +8,32 @@ class Functions
 {
   public static string GetString(string prompt)
   {
-    Console.Write(prompt);
-    return Console.ReadLine().Trim();
+    while (true)
+    {
+      Console.Write(prompt);
+      string input = Console.ReadLine()!.Trim();
+      if (input != "") return input;
+      else Console.WriteLine("Input cannot be empty!");
+    }
+  }
+
+  public static int GetInteger(string prompt)
+  {
+    while (true)
+    {
+      Console.Write(prompt);
+      string input = Console.ReadLine()!.Trim();
+      if (input != "")
+      {
+        if (int.TryParse(input, out int num)) return num;
+        else Console.WriteLine("Input must be an integer!");
+      }
+      else
+      {
+        Console.WriteLine("Input cannot be empty!");
+      }
+    }
+
   }
 
   public static void AddInstructor()
@@ -30,7 +54,7 @@ class Functions
     string code = GetString("Please enter the Course Code: ");
     string name = GetString("Please enter the Name: ");
     DisplayInstructors();
-    int instructorID = int.Parse(GetString("Please enter the Instructor ID: "));
+    int instructorID = GetInteger("Please enter the Instructor ID: ");
     using (CodeFirstContext context = new CodeFirstContext())
     {
       context.Courses.Add(new Course()
@@ -48,7 +72,7 @@ class Functions
     string firstName = GetString("Please enter the First Name: ");
     string lastName = GetString("Please enter the Last Name: ");
     DisplayCourses();
-    int courseID = int.Parse(GetString("Please enter the Course ID: "));
+    int courseID = GetInteger("Please enter the Course ID: ");
     using (CodeFirstContext context = new CodeFirstContext())
     {
       context.Students.Add(new Student()
@@ -100,7 +124,7 @@ class Functions
     using (CodeFirstContext context = new CodeFirstContext())
     {
       DisplayInstructors();
-      int targetID = int.Parse(GetString("Please enter the instructor ID to update: "));
+      int targetID = GetInteger("Please enter the instructor ID to update: ");
       Instructor? target = context.Instructors.Find(targetID);
       if (target == null)
       {
@@ -120,7 +144,7 @@ class Functions
     using (CodeFirstContext context = new CodeFirstContext())
     {
       DisplayCourses();
-      int targetID = int.Parse(GetString("Please enter the course ID to update: "));
+      int targetID = GetInteger("Please enter the course ID to update: ");
       Course? target = context.Courses.Find(targetID);
       if (target == null)
       {
@@ -131,7 +155,7 @@ class Functions
         target.Name = GetString("Please enter the new course Name: ");
         target.Code = GetString("Please enter the new course Code: ");
         DisplayInstructors();
-        target.InstructorID = int.Parse(GetString("Please enter the new instructor Id: "));
+        target.InstructorID = GetInteger("Please enter the new instructor Id: ");
         context.SaveChanges();
       }
     }
@@ -142,7 +166,7 @@ class Functions
     using (CodeFirstContext context = new CodeFirstContext())
     {
       DisplayStudents();
-      int targetID = int.Parse(GetString("Please enter the student ID to update: "));
+      int targetID = GetInteger("Please enter the student ID to update: ");
       Student? target = context.Students.Find(targetID);
       if (target == null)
       {
@@ -153,7 +177,7 @@ class Functions
         target.FirstName = GetString("Please enter the new First Name: ");
         target.LastName = GetString("Please enter the new Last Name: ");
         DisplayCourses();
-        target.CourseID = int.Parse(GetString("Please enter the new course Id: "));
+        target.CourseID = GetInteger("Please enter the new course Id: ");
         context.SaveChanges();
       }
     }
@@ -164,7 +188,7 @@ class Functions
     using (CodeFirstContext context = new CodeFirstContext())
     {
       DisplayInstructors();
-      int targetID = int.Parse(GetString("Please enter the instructor ID to delete: "));
+      int targetID = GetInteger("Please enter the instructor ID to delete: ");
       Instructor? target = context.Instructors.Find(targetID);
       if (target == null)
       {
@@ -183,7 +207,7 @@ class Functions
     using (CodeFirstContext context = new CodeFirstContext())
     {
       DisplayCourses();
-      int targetID = int.Parse(GetString("Please enter the course ID to delete: "));
+      int targetID = GetInteger("Please enter the course ID to delete: ");
       Course? target = context.Courses.Find(targetID);
       if (target == null)
       {
@@ -202,7 +226,7 @@ class Functions
     using (CodeFirstContext context = new CodeFirstContext())
     {
       DisplayStudents();
-      int targetID = int.Parse(GetString("Please enter the student ID to delete: "));
+      int targetID = GetInteger("Please enter the student ID to delete: ");
       Student? target = context.Students.Find(targetID);
       if (target == null)
       {

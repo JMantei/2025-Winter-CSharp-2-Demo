@@ -72,19 +72,62 @@ class Program
                                     }
                                 }
 
-                                Console.WriteLine($"Create a {entities[entityChoice]}");
                             }
                             else if (operationChoice == 2)
                             {
-                                Console.WriteLine($"Read a {entities[entityChoice]}");
+                                if (entityChoice == 0)
+                                {
+                                    using (CodeFirstContext context = new CodeFirstContext())
+                                    {
+                                        foreach (Instructor instructor in context.Instructors.ToList())
+                                        {
+                                            Console.WriteLine($"{instructor.ID}. {instructor.FirstName} {instructor.LastName}");
+                                        }
+                                    }
+                                }
                             }
                             else if (operationChoice == 3)
                             {
-                                Console.WriteLine($"Update a {entities[entityChoice]}");
+                                using (CodeFirstContext context = new CodeFirstContext())
+                                {
+                                    foreach (Instructor instructor in context.Instructors.ToList())
+                                    {
+                                        Console.WriteLine($"{instructor.ID}. {instructor.FirstName} {instructor.LastName}");
+                                    }
+                                    int targetID = int.Parse(GetString("Please enter the instructor ID to update: "));
+                                    Instructor? target = context.Instructors.Find(targetID);
+                                    if (target == null)
+                                    {
+                                        Console.WriteLine("Could not find that instructor, please try again.");
+                                    }
+                                    else
+                                    {
+                                        target.FirstName = GetString("Please enter the new First Name: ");
+                                        target.LastName = GetString("Please enter the new Last Name: ");
+                                        context.SaveChanges();
+                                    }
+                                }
                             }
                             else if (operationChoice == 4)
                             {
-                                Console.WriteLine($"Delete a {entities[entityChoice]}");
+                                using (CodeFirstContext context = new CodeFirstContext())
+                                {
+                                    foreach (Instructor instructor in context.Instructors.ToList())
+                                    {
+                                        Console.WriteLine($"{instructor.ID}. {instructor.FirstName} {instructor.LastName}");
+                                    }
+                                    int targetID = int.Parse(GetString("Please enter the instructor ID to update: "));
+                                    Instructor? target = context.Instructors.Find(targetID);
+                                    if (target == null)
+                                    {
+                                        Console.WriteLine("Could not find that instructor, please try again.");
+                                    }
+                                    else
+                                    {
+                                        context.Remove(target);
+                                        context.SaveChanges();
+                                    }
+                                }
                             }
                             else if (operationChoice != 5)
                             {

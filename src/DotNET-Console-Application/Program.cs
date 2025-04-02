@@ -1,9 +1,16 @@
-﻿namespace DotNET_Console_Application;
+﻿using DotNET_Console_Application.Models;
+
+namespace DotNET_Console_Application;
 
 
 
 class Program
 {
+    static string GetString(string prompt)
+    {
+        Console.Write(prompt);
+        return Console.ReadLine().Trim();
+    }
     static void Main(string[] args)
     {
         string[] entities = ["Instructor", "Course", "Student"];
@@ -25,6 +32,46 @@ class Program
                         {
                             if (operationChoice == 1)
                             {
+                                if (entityChoice == 0)
+                                {
+                                    using (CodeFirstContext context = new CodeFirstContext())
+                                    {
+                                        context.Instructors.Add(new Instructor()
+                                        {
+                                            FirstName = GetString("Please enter the First Name: "),
+                                            LastName = GetString("Please enter the Last Name: "),
+                                        });
+                                        context.SaveChanges();
+                                    }
+                                }
+                                else if (entityChoice == 1)
+                                {
+                                    using (CodeFirstContext context = new CodeFirstContext())
+                                    {
+                                        context.Courses.Add(new Course()
+                                        {
+                                            Code = GetString("Please enter the Course Code: "),
+                                            Name = GetString("Please enter the Name: "),
+                                            // This should be a list then select, but for now we're going basic.
+                                            InstructorID = int.Parse(GetString("Please enter the Instructor ID: "))
+                                        });
+                                        context.SaveChanges();
+                                    }
+                                }
+                                else if (entityChoice == 2)
+                                {
+                                    using (CodeFirstContext context = new CodeFirstContext())
+                                    {
+                                        context.Students.Add(new Student()
+                                        {
+                                            FirstName = GetString("Please enter the First Name: "),
+                                            LastName = GetString("Please enter the Last Name: "),
+                                            CourseID = int.Parse(GetString("Please enter the Course ID: "))
+                                        });
+                                        context.SaveChanges();
+                                    }
+                                }
+
                                 Console.WriteLine($"Create a {entities[entityChoice]}");
                             }
                             else if (operationChoice == 2)
